@@ -10,7 +10,7 @@ from flask_socketio import SocketIO, emit
 from pymongo import MongoClient, ASCENDING, DESCENDING
 
 from dotenv import load_dotenv #使用讀取環境的套件（在使用MongoDB Atlas開啟）
-load_dotenv() #讀取.env的環境
+load_dotenv(override=False) #讀取.env的環境
 
 app = Flask(__name__)
 
@@ -33,6 +33,8 @@ MAX_HISTORY = 100  # 取得歷史訊息時的最大筆數（避免一次查太�
 #MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
 
 MONGO_URI = os.getenv("MONGO_URI")  # 改用使用自己mongodb atlas的網址  ex: mongodb://appuser:StrongPassword!@mongo-xxxx:27017/chatapp?authSource=chatapp
+if not MONGO_URI:
+    raise ValueError("請確認已設定 MONGO_URI 環境變數！")
 
 
 DB_NAME = os.getenv("MONGO_DB", "chatapp")           # 資料庫名稱
